@@ -1,4 +1,11 @@
-# Distribution
+# COPERNICA FORK
+
+This is Copernica's fork of the Docker Registry. The only thing that we changed
+was the base image. By default, this image is based on Alpine Linux, we changed
+that into Docker, because the Alpine distribution was (oddly enough) slower.
+
+
+## Distribution
 
 The toolset to pack, ship, store, and deliver content.
 

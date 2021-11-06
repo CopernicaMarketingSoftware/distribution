@@ -1,6 +1,6 @@
 ARG GO_VERSION=1.17
 
-FROM golang:${GO_VERSION}-alpine3.14 AS build
+FROM golang:${GO_VERSION}-bullseye AS build
 
 ENV GO111MODULE=auto
 ENV DISTRIBUTION_DIR /go/src/github.com/distribution/distribution
@@ -12,17 +12,16 @@ ARG GOARM=6
 ARG VERSION
 ARG REVISION
 
-RUN set -ex \
-    && apk add --no-cache make git file
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y update; apt-get -y install file
 
 WORKDIR $DISTRIBUTION_DIR
 COPY . $DISTRIBUTION_DIR
 RUN CGO_ENABLED=0 make PREFIX=/go clean binaries && file ./bin/registry | grep "statically linked"
 
-FROM alpine:3.14
+FROM debian:bullseye-slim
 
-RUN set -ex \
-    && apk add --no-cache ca-certificates
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y update; apt-get -y install ca-certificates
+RUN apt-get -y clean; apt-get -y autoclean; apt-get -y autoremove
 
 COPY cmd/registry/config-dev.yml /etc/docker/registry/config.yml
 COPY --from=build /go/src/github.com/distribution/distribution/bin/registry /bin/registry
