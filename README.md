@@ -2,7 +2,7 @@
 
 This is Copernica's fork of the Docker Registry. The only thing that we 
 changed was the base image. By default, this image is based on Alpine 
-Linux, we changed that into Docker, because the Alpine distribution was 
+Linux, we changed that into Debian, because the Alpine distribution was 
 (oddly enough) slower.
 
 This image is stored on Docker hub under the name copernica/distribution
